@@ -13,12 +13,12 @@ from flask import (
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Blueprint setup for webpage routes.
-routes = Blueprint("routes", name)
+routes = Blueprint("routes", __name__)
 
 #Temporary admin creds.
-ADMIN ={
+ADMIN = {
     "username": "admin",
-    "password_hash": ""generate_password_hash("password123")
+    "password_hash": generate_password_hash("password123")
 }
 
 #At the login page the server will render the login.html file.
