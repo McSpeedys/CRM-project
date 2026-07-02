@@ -1,16 +1,19 @@
 #This file will serve to host all the subpages for the website.
 #Importing all necessary packages from flask
-from flask import {
+from flask import (
     Blueprint, 
     render_template,
     request,
     redirect,
     url_for,
     session,
-}
+)
 
 #Importing werkzeug for password hashing.
 from werkzeug.security import generate_password_hash, check_password_hash
+
+#Blueprint setup for webpage routes.
+routes = Blueprint("routes", name)
 
 #Temporary admin creds.
 ADMIN ={
@@ -22,11 +25,11 @@ ADMIN ={
 @routes.route("/")
 def login_page():
     if session.get("logged_in"):
-        return redirect(url_for{"routes.dashboard"})
+        return redirect(url_for("routes.dashboard"))
 
     return render_template("login.html")
 
-@routes.route("/login", methods={"POST"})
+@routes.route("/login", methods=["POST"])
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
@@ -39,10 +42,8 @@ def login():
         return redirect(url_for("routes.dashboard"))
     
     #Else send them back to the login page.
-    return render_template{
-        "login.html",
-        error="Invalid username or password."
-    }
+    return render_template("login.html", error="Invalid username or password.")
+    
 
 #At the dashboards page the server 
 @routes.route("/dashboard")
