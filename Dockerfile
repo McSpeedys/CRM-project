@@ -8,8 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN chmod +x initial.sh
-
 EXPOSE 8000
 
-CMD ["sh", "./initial.sh"]
+CMD ["python", "startup.py"]

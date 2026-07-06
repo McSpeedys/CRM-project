@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
-from .db import get_connection
+from .db import get_connection, get_all_interns
 
 routes = Blueprint("routes", __name__)
 
@@ -34,8 +34,12 @@ def login():
 def dashboard():
     if not session.get("logged_in"):
         return redirect(url_for("routes.login_page"))
+    
+    interns = get_all_interns()
 
-    return render_template("dashboard.html", username=session["username"])
+    return render_template("dashboard.html", 
+                           username=session["username"],
+                           interns=interns)
 
 @routes.route("/logout")
 def logout():

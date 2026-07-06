@@ -1,21 +1,49 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
     <title>Dashboard</title>
 </head>
-
 <body>
 
-  <h1>Merhaba {{ username }}</h1>
+<h1>Merhaba {{ username }}</h1>
 
-<p>Stajyer bilgileri burada olacak</p>
+<h2>Interns</h2>
 
-<a href="/logout">
-  Logout
-</a>
+{% if interns %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>School</th>
+        <th>Department</th>
+        <th>Status</th>
+    </tr>
+
+    {% for intern in interns %}
+    <tr>
+        <td>{{ intern.id }}</td>
+        <td>{{ intern.first_name }} {{ intern.last_name }}</td>
+        <td>{{ intern.email }}</td>
+        <td>{{ intern.school }}</td>
+        <td>{{ intern.department }}</td>
+        <td>{{ intern.status }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No interns found.</p>
+
+{% endif %}
+
+<br>
+
+<a href="{{ url_for('routes.logout') }}">Logout</a>
 
 </body>
-
 </html>
