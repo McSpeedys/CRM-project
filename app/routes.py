@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
-from .db import get_connection, get_all_interns
+from .db import get_connection, get_all_interns, add_intern, delete_intern
 
 routes = Blueprint("routes", __name__)
 
@@ -40,6 +40,26 @@ def dashboard():
     return render_template("dashboard.html", 
                            username=session["username"],
                            interns=interns)
+
+@routes.route("/intern/add", methods=["POST"])
+def create_intern():
+
+    if not session.get("logged_in"):
+        return redirect(url_for("routes.login_page"))
+
+    add_intern(request.form)
+
+    return redirect(url_for("routes.dashboard"))
+
+@routes.route("/intern/delete/<int:intern_id>", methods=["POST"])
+def remove_intern(intern_id):
+
+    if not session.get("logged_in"):
+        return redirect(url_for("routes.login_page"))
+
+    delete_intern(intern_id)
+
+    return redirect(url_for("routes.dashboard"))
 
 @routes.route("/logout")
 def logout():

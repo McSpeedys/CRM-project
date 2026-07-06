@@ -22,3 +22,47 @@ def get_all_interns():
     conn.close()
 
     return interns
+
+#Function for adding interns to db.
+def add_intern(data):
+    conn = get_connection()
+    conn.execute("""
+        INSERT INTO interns (
+            first_name,
+            last_name,
+            email,
+            phone,
+            school,
+            department,
+            internship_start,
+            internship_end,
+            status
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        data["first_name"],
+        data["last_name"],
+        data["email"],
+        data["phone"],
+        data["school"],
+        data["department"],
+        data["internship_start"],
+        data["internship_end"],
+        data["status"]
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+#Function for removing interns from db.
+def delete_intern(intern_id):
+    conn = get_connection()
+
+    conn.execute(
+        "DELETE FROM interns WHERE id=?",
+        (intern_id,)
+        )
+
+    conn.commit()
+    conn.close()
