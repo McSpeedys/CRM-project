@@ -1,167 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Dashboard</title>
+    <title>Norbit CRM | Dashboard</title>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+
+        body {
+            background: #f4f7fb;
+            color: #0f172a;
+        }
+
+        .topbar {
+            height: 78px;
+            background: linear-gradient(135deg, #061b4f, #0b5cff);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: white;
+            color: #0b5cff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 23px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.14);
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1350px;
+            margin: 32px auto;
+        }
+
+        .welcome {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+            margin-bottom: 26px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.07);
+        }
+
+        .stat-card span {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .stat-card h2 {
+            margin-top: 8px;
+            color: #0b5cff;
+            font-size: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 26px;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+            margin-bottom: 26px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            font-size: 22px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th {
+            background: #eef4ff;
+            color: #1e3a8a;
+            text-align: left;
+            padding: 14px;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fbff;
+        }
+
+        .badge {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .pending { background: #fef3c7; color: #92400e; }
+        .active { background: #dcfce7; color: #166534; }
+        .completed { background: #dbeafe; color: #1e40af; }
+
+        .delete-btn {
+            border: none;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 8px 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            height: 46px;
+            border: 1px solid #d7deea;
+            border-radius: 11px;
+            padding: 0 13px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #0b5cff;
+            box-shadow: 0 0 0 4px rgba(11, 92, 255, 0.12);
+        }
+
+        .submit-area {
+            margin-top: 22px;
+            text-align: right;
+        }
+
+        .add-btn {
+            border: none;
+            background: linear-gradient(135deg, #1473ff, #0034c9);
+            color: white;
+            padding: 14px 26px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.30);
+        }
+
+        .empty {
+            color: #64748b;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .stats, .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Intern CRM Dashboard</h1>
+    <div class="topbar">
+        <div class="brand">
+            <div class="logo">N</div>
+            <div>
+                <div>NORBIT</div>
+                <small>ARGE VE YAZILIM CRM</small>
+            </div>
+        </div>
 
-    <p>Welcome, <strong>{{ username }}</strong></p>
+        <a class="logout" href="{{ url_for('routes.logout') }}">Logout</a>
+    </div>
 
-    <a href="{{ url_for('routes.logout') }}">Logout</a>
+    <div class="container">
 
-    <hr>
+        <div class="welcome">
+            <h1>Hoş geldin, {{ username }} 👋</h1>
+            <p>Stajyer kayıtlarını, durumlarını ve temel bilgilerini buradan yönetebilirsin.</p>
+        </div>
 
-    <h2>Intern Database</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <span>Toplam Stajyer</span>
+                <h2>{{ interns|length if interns else 0 }}</h2>
+            </div>
 
-    {% if interns %}
+            <div class="stat-card">
+                <span>Aktif Kayıtlar</span>
+                <h2>{{ interns|selectattr("status", "equalto", "active")|list|length if interns else 0 }}</h2>
+            </div>
 
-    <table border="1" cellpadding="8" cellspacing="0">
+            <div class="stat-card">
+                <span>Bekleyen Kayıtlar</span>
+                <h2>{{ interns|selectattr("status", "equalto", "pending")|list|length if interns else 0 }}</h2>
+            </div>
+        </div>
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>School</th>
-                <th>Department</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
+        <div class="section">
+            <div class="section-title">
+                <h2>Stajyer Veritabanı</h2>
+            </div>
 
-        <tbody>
+            {% if interns %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ad</th>
+                            <th>Soyad</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Okul</th>
+                            <th>Bölüm</th>
+                            <th>Başlangıç</th>
+                            <th>Bitiş</th>
+                            <th>Durum</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
 
-        {% for intern in interns %}
+                    <tbody>
+                    {% for intern in interns %}
+                        <tr>
+                            <td>{{ intern.id }}</td>
+                            <td>{{ intern.first_name }}</td>
+                            <td>{{ intern.last_name }}</td>
+                            <td>{{ intern.email }}</td>
+                            <td>{{ intern.phone }}</td>
+                            <td>{{ intern.school }}</td>
+                            <td>{{ intern.department }}</td>
+                            <td>{{ intern.internship_start }}</td>
+                            <td>{{ intern.internship_end }}</td>
+                            <td>
+                                <span class="badge {{ intern.status }}">
+                                    {{ intern.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('routes.remove_intern', intern_id=intern.id) }}">
+                                    <button class="delete-btn" type="submit" onclick="return confirm('Bu stajyer silinsin mi?');">
+                                        Sil
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="empty">Henüz kayıtlı stajyer bulunmuyor.</p>
+            {% endif %}
+        </div>
 
-            <tr>
+        <div class="section">
+            <div class="section-title">
+                <h2>Yeni Stajyer Ekle</h2>
+            </div>
 
-                <td>{{ intern.id }}</td>
-                <td>{{ intern.first_name }}</td>
-                <td>{{ intern.last_name }}</td>
-                <td>{{ intern.email }}</td>
-                <td>{{ intern.phone }}</td>
-                <td>{{ intern.school }}</td>
-                <td>{{ intern.department }}</td>
-                <td>{{ intern.internship_start }}</td>
-                <td>{{ intern.internship_end }}</td>
-                <td>{{ intern.status }}</td>
+            <form method="POST" action="{{ url_for('routes.create_intern') }}">
+                <div class="form-grid">
+                    <div>
+                        <label>Ad</label>
+                        <input type="text" name="first_name" required>
+                    </div>
 
-                <td>
+                    <div>
+                        <label>Soyad</label>
+                        <input type="text" name="last_name" required>
+                    </div>
 
-                    <form method="POST"
-                          action="{{ url_for('routes.remove_intern', intern_id=intern.id) }}">
+                    <div>
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
 
-                        <button type="submit"
-                                onclick="return confirm('Delete this intern?');">
+                    <div>
+                        <label>Telefon</label>
+                        <input type="text" name="phone">
+                    </div>
 
-                            Delete
+                    <div>
+                        <label>Okul</label>
+                        <input type="text" name="school">
+                    </div>
 
-                        </button>
+                    <div>
+                        <label>Bölüm</label>
+                        <input type="text" name="department">
+                    </div>
 
-                    </form>
+                    <div>
+                        <label>Staj Başlangıç</label>
+                        <input type="date" name="internship_start">
+                    </div>
 
-                </td>
+                    <div>
+                        <label>Staj Bitiş</label>
+                        <input type="date" name="internship_end">
+                    </div>
 
-            </tr>
+                    <div>
+                        <label>Durum</label>
+                        <select name="status">
+                            <option value="pending">Pending</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
 
-        {% endfor %}
+                <div class="submit-area">
+                    <button class="add-btn" type="submit">+ Stajyer Ekle</button>
+                </div>
+            </form>
+        </div>
 
-        </tbody>
-
-    </table>
-
-    {% else %}
-
-        <p>No interns found.</p>
-
-    {% endif %}
-
-    <hr>
-
-    <h2>Add New Intern</h2>
-
-    <form method="POST"
-          action="{{ url_for('routes.create_intern') }}">
-
-        <p>
-            <label>First Name</label><br>
-            <input type="text"
-                   name="first_name"
-                   required>
-        </p>
-
-        <p>
-            <label>Last Name</label><br>
-            <input type="text"
-                   name="last_name"
-                   required>
-        </p>
-
-        <p>
-            <label>Email</label><br>
-            <input type="email"
-                   name="email"
-                   required>
-        </p>
-
-        <p>
-            <label>Phone</label><br>
-            <input type="text"
-                   name="phone">
-        </p>
-
-        <p>
-            <label>School</label><br>
-            <input type="text"
-                   name="school">
-        </p>
-
-        <p>
-            <label>Department</label><br>
-            <input type="text"
-                   name="department">
-        </p>
-
-        <p>
-            <label>Internship Start</label><br>
-            <input type="date"
-                   name="internship_start">
-        </p>
-
-        <p>
-            <label>Internship End</label><br>
-            <input type="date"
-                   name="internship_end">
-        </p>
-
-        <p>
-            <label>Status</label><br>
-
-            <select name="status">
-
-                <option value="pending">Pending</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-
-            </select>
-
-        </p>
-
-        <button type="submit">
-
-            Add Intern
-
-        </button>
-
-    </form>
+    </div>
 
 </body>
-</html>
+</html> 
