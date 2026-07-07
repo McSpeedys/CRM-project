@@ -161,6 +161,25 @@
         .active { background: #dcfce7; color: #166534; }
         .completed { background: #dbeafe; color: #1e40af; }
 
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn {
+            border: none;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 8px 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+
         .delete-btn {
             border: none;
             background: #fee2e2;
@@ -293,7 +312,7 @@
                             <th>Başlangıç</th>
                             <th>Bitiş</th>
                             <th>Durum</th>
-                            <th>Sil</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
 
@@ -315,11 +334,17 @@
                                 </span>
                             </td>
                             <td>
-                                <form method="POST" action="{{ url_for('routes.remove_intern', intern_id=intern.id) }}">
-                                    <button class="delete-btn" type="submit" onclick="return confirm('Bu stajyer silinsin mi?');">
-                                        Sil
-                                    </button>
-                                </form>
+                                <div class="actions-cell">
+                                    <a class="edit-btn" href="{{ url_for('routes.edit_page', intern_id=intern.id) }}">
+                                        Düzenle
+                                    </a>
+
+                                    <form method="POST" action="{{ url_for('routes.remove_intern', intern_id=intern.id) }}" style="display:inline;">
+                                        <button class="delete-btn" type="submit" onclick="return confirm('Bu stajyer silinsin mi?');">
+                                            Sil
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
@@ -397,4 +422,4 @@
     </div>
 
 </body>
-</html> 
+</html>

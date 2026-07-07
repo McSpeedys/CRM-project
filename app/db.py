@@ -66,3 +66,50 @@ def delete_intern(intern_id):
 
     conn.commit()
     conn.close()
+
+#Helper function for getting interns.
+def get_intern(intern_id):
+    conn = get_connection()
+
+    intern = conn.execute("""
+        SELECT *
+        FROM interns
+        WHERE id = ?
+    """, (intern_id,)).fetchone()
+
+    conn.close()
+
+    return intern
+
+#Function to update intern data on dashboard.
+def update_intern(intern_id, data):
+    conn = get_connection()
+
+    conn.execute("""
+        UPDATE interns
+        SET
+            first_name = ?,
+            last_name = ?,
+            email = ?,
+            phone = ?,
+            school = ?,
+            department = ?,
+            internship_start = ?,
+            internship_end = ?,
+            status = ?
+        WHERE id = ?
+    """, (
+        data["first_name"],
+        data["last_name"],
+        data["email"],
+        data["phone"],
+        data["school"],
+        data["department"],
+        data["internship_start"],
+        data["internship_end"],
+        data["status"],
+        intern_id
+    ))
+
+    conn.commit()
+    conn.close()

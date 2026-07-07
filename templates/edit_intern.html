@@ -1,0 +1,77 @@
+<form method="POST" action="/update/{{ intern.id }}">
+
+    <input
+        name="first_name"
+        value="{{ intern.first_name }}"
+        required
+    >
+
+    <input
+        name="last_name"
+        value="{{ intern.last_name }}"
+        required
+    >
+
+    <input
+        name="email"
+        value="{{ intern.email }}"
+        required
+    >
+
+    <input
+        name="phone"
+        value="{{ intern.phone }}"
+    >
+
+    <input
+        name="school"
+        value="{{ intern.school }}"
+    >
+
+    <input
+        name="department"
+        value="{{ intern.department }}"
+    >
+
+    <input
+        type="date"
+        name="internship_start"
+        value="{{ intern.internship_start }}"
+    >
+
+    <input
+        type="date"
+        name="internship_end"
+        value="{{ intern.internship_end }}"
+    >
+
+    <select name="status">
+
+        <option
+            value="pending"
+            {% if intern.status == "pending" %}selected{% endif %}
+        >
+            Pending
+        </option>
+
+        <option
+            value="active"
+            {% if intern.status == "active" %}selected{% endif %}
+        >
+            Active
+        </option>
+
+        <option
+            value="completed"
+            {% if intern.status == "completed" %}selected{% endif %}
+        >
+            Completed
+        </option>
+
+    </select>
+
+    <button type="submit">
+        Save Changes
+    </button>
+
+</form>
